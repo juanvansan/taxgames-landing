@@ -21,7 +21,7 @@
       padding: 40px;
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
-      max-width: 600px;
+      max-width: 800px;
     }
     h1 {
       font-size: 2.5rem;
@@ -31,14 +31,44 @@
     p {
       font-size: 1.2rem;
       color: #666;
+      margin-bottom: 30px;
     }
     .emoji {
       font-size: 3rem;
     }
-    img {
-      max-width: 100%;
-      border-radius: 12px;
+    .arena {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      align-items: center;
+      background: #f9f9f9;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
       margin-bottom: 20px;
+    }
+    .soldado {
+      width: 128px;
+      transition: transform 0.3s;
+    }
+    .animar {
+      animation: vibrar 0.4s ease-in-out 3;
+    }
+    @keyframes vibrar {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #444;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -46,9 +76,41 @@
   <div class="container">
     <div class="emoji">🛡️⚔️</div>
     <h1>TaxGames</h1>
-    <img src="soldados.png" alt="Soldados fiscales">
+    <img src="soldados.png" alt="Soldados fiscales" style="max-width: 70%; border-radius: 12px; margin-bottom: 20px;">
     <p>Estamos construyendo una plataforma interactiva donde los impuestos se convierten en juego. Muy pronto verás a tus soldados fiscales en acción.</p>
-    <p class="emoji">🚧 En construcción...</p>
+
+    <div class="arena">
+      <img id="espana" class="soldado" src="espana-neutral.png" alt="Soldado España">
+      <img id="uk" class="soldado" src="uk-neutral.png" alt="Soldado UK">
+    </div>
+
+    <button id="play">Iniciar combate fiscal</button>
   </div>
+
+  <script>
+    const btn = document.getElementById('play');
+    const soldadoES = document.getElementById('espana');
+    const soldadoUK = document.getElementById('uk');
+
+    btn.addEventListener('click', () => {
+      soldadoES.classList.add('animar');
+      soldadoUK.classList.add('animar');
+
+      setTimeout(() => {
+        soldadoES.classList.remove('animar');
+        soldadoUK.classList.remove('animar');
+
+        const ganador = Math.random() < 0.5 ? 'ES' : 'UK';
+
+        if (ganador === 'ES') {
+          soldadoES.src = 'espana-victoria.png';
+          soldadoUK.src = 'uk-derrota.png';
+        } else {
+          soldadoES.src = 'espana-derrota.png';
+          soldadoUK.src = 'uk-victoria.png';
+        }
+      }, 1200);
+    });
+  </script>
 </body>
 </html>
